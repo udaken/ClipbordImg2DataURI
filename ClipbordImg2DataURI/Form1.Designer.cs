@@ -39,9 +39,9 @@
             this.scale12Percent = new System.Windows.Forms.RadioButton();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.outputFormatJpeg = new System.Windows.Forms.RadioButton();
             this.outputFormatPng8 = new System.Windows.Forms.RadioButton();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.outputFormatJpeg = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -52,10 +52,10 @@
             // 
             this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBox1.Location = new System.Drawing.Point(8, 9);
+            this.pictureBox1.Location = new System.Drawing.Point(13, 14);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(640, 640);
+            this.pictureBox1.Size = new System.Drawing.Size(1064, 958);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
@@ -63,12 +63,11 @@
             // 
             this.copyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.copyButton.Enabled = false;
-            this.copyButton.Location = new System.Drawing.Point(551, 734);
-            this.copyButton.Margin = new System.Windows.Forms.Padding(2);
+            this.copyButton.Location = new System.Drawing.Point(896, 1101);
             this.copyButton.Name = "copyButton";
-            this.copyButton.Size = new System.Drawing.Size(98, 29);
+            this.copyButton.Size = new System.Drawing.Size(174, 44);
             this.copyButton.TabIndex = 1;
-            this.copyButton.Text = "&Copy data URI";
+            this.copyButton.Text = "&Copy as data URI";
             this.copyButton.UseVisualStyleBackColor = true;
             this.copyButton.Click += new System.EventHandler(this.copyButton_Click);
             // 
@@ -76,14 +75,12 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.Controls.Add(this.flowLayoutPanel1);
-            this.groupBox1.Location = new System.Drawing.Point(8, 653);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox1.Location = new System.Drawing.Point(13, 980);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(384, 41);
+            this.groupBox1.Size = new System.Drawing.Size(855, 62);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "縮小";
+            this.groupBox1.Text = "Scaling";
             // 
             // flowLayoutPanel1
             // 
@@ -93,64 +90,59 @@
             this.flowLayoutPanel1.Controls.Add(this.scale12Percent);
             this.flowLayoutPanel1.Controls.Add(this.checkBox1);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(2, 14);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 21);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(380, 25);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(849, 38);
             this.flowLayoutPanel1.TabIndex = 3;
             // 
             // scale100Percent
             // 
             this.scale100Percent.AutoSize = true;
             this.scale100Percent.Checked = true;
-            this.scale100Percent.Location = new System.Drawing.Point(2, 2);
-            this.scale100Percent.Margin = new System.Windows.Forms.Padding(2);
+            this.scale100Percent.Location = new System.Drawing.Point(3, 3);
             this.scale100Percent.Name = "scale100Percent";
-            this.scale100Percent.Size = new System.Drawing.Size(47, 16);
+            this.scale100Percent.Size = new System.Drawing.Size(69, 22);
             this.scale100Percent.TabIndex = 0;
             this.scale100Percent.TabStop = true;
             this.scale100Percent.Text = "100%";
             this.scale100Percent.UseVisualStyleBackColor = true;
-            this.scale100Percent.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.scale100Percent.CheckedChanged += new System.EventHandler(this.UpdateImage);
             // 
             // scale50Percent
             // 
             this.scale50Percent.AutoSize = true;
-            this.scale50Percent.Location = new System.Drawing.Point(53, 2);
-            this.scale50Percent.Margin = new System.Windows.Forms.Padding(2);
+            this.scale50Percent.Location = new System.Drawing.Point(78, 3);
             this.scale50Percent.Name = "scale50Percent";
-            this.scale50Percent.Size = new System.Drawing.Size(41, 16);
+            this.scale50Percent.Size = new System.Drawing.Size(60, 22);
             this.scale50Percent.TabIndex = 1;
             this.scale50Percent.TabStop = true;
             this.scale50Percent.Text = "50%";
             this.scale50Percent.UseVisualStyleBackColor = true;
-            this.scale50Percent.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.scale50Percent.CheckedChanged += new System.EventHandler(this.UpdateImage);
             // 
             // scale25Percent
             // 
             this.scale25Percent.AutoSize = true;
-            this.scale25Percent.Location = new System.Drawing.Point(98, 2);
-            this.scale25Percent.Margin = new System.Windows.Forms.Padding(2);
+            this.scale25Percent.Location = new System.Drawing.Point(144, 3);
             this.scale25Percent.Name = "scale25Percent";
-            this.scale25Percent.Size = new System.Drawing.Size(41, 16);
+            this.scale25Percent.Size = new System.Drawing.Size(60, 22);
             this.scale25Percent.TabIndex = 2;
             this.scale25Percent.TabStop = true;
             this.scale25Percent.Text = "25%";
             this.scale25Percent.UseVisualStyleBackColor = true;
-            this.scale25Percent.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.scale25Percent.CheckedChanged += new System.EventHandler(this.UpdateImage);
             // 
             // scale12Percent
             // 
             this.scale12Percent.AutoSize = true;
-            this.scale12Percent.Location = new System.Drawing.Point(143, 2);
-            this.scale12Percent.Margin = new System.Windows.Forms.Padding(2);
+            this.scale12Percent.Location = new System.Drawing.Point(210, 3);
             this.scale12Percent.Name = "scale12Percent";
-            this.scale12Percent.Size = new System.Drawing.Size(49, 16);
+            this.scale12Percent.Size = new System.Drawing.Size(73, 22);
             this.scale12Percent.TabIndex = 4;
             this.scale12Percent.TabStop = true;
             this.scale12Percent.Text = "12.5%";
             this.scale12Percent.UseVisualStyleBackColor = true;
-            this.scale12Percent.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.scale12Percent.CheckedChanged += new System.EventHandler(this.UpdateImage);
             // 
             // checkBox1
             // 
@@ -158,12 +150,11 @@
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox1.Enabled = false;
-            this.checkBox1.Location = new System.Drawing.Point(196, 2);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBox1.Location = new System.Drawing.Point(289, 3);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(123, 16);
+            this.checkBox1.Size = new System.Drawing.Size(197, 22);
             this.checkBox1.TabIndex = 3;
-            this.checkBox1.Text = "シャープネスフィルター";
+            this.checkBox1.Text = "Apply Shapness Filter";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // groupBox2
@@ -171,55 +162,60 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox2.Controls.Add(this.outputFormatJpeg);
             this.groupBox2.Controls.Add(this.outputFormatPng8);
-            this.groupBox2.Location = new System.Drawing.Point(13, 698);
+            this.groupBox2.Location = new System.Drawing.Point(22, 1047);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(375, 36);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.groupBox2.Size = new System.Drawing.Size(840, 54);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "画像フォーマット";
+            this.groupBox2.Text = "Output foramt(Mime Type)";
+            // 
+            // outputFormatJpeg
+            // 
+            this.outputFormatJpeg.AutoSize = true;
+            this.outputFormatJpeg.Location = new System.Drawing.Point(268, 21);
+            this.outputFormatJpeg.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.outputFormatJpeg.Name = "outputFormatJpeg";
+            this.outputFormatJpeg.Size = new System.Drawing.Size(122, 22);
+            this.outputFormatJpeg.TabIndex = 1;
+            this.outputFormatJpeg.Text = "JPEG(q=90)";
+            this.outputFormatJpeg.UseVisualStyleBackColor = true;
             // 
             // outputFormatPng8
             // 
             this.outputFormatPng8.AutoSize = true;
             this.outputFormatPng8.Checked = true;
-            this.outputFormatPng8.Location = new System.Drawing.Point(6, 14);
+            this.outputFormatPng8.Location = new System.Drawing.Point(10, 21);
+            this.outputFormatPng8.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.outputFormatPng8.Name = "outputFormatPng8";
-            this.outputFormatPng8.Size = new System.Drawing.Size(52, 16);
+            this.outputFormatPng8.Size = new System.Drawing.Size(77, 22);
             this.outputFormatPng8.TabIndex = 0;
+            this.outputFormatPng8.TabStop = true;
             this.outputFormatPng8.Text = "PNG8";
             this.outputFormatPng8.UseVisualStyleBackColor = true;
             // 
             // textBox1
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBox1.Location = new System.Drawing.Point(13, 744);
+            this.textBox1.Location = new System.Drawing.Point(22, 1116);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(379, 19);
+            this.textBox1.Size = new System.Drawing.Size(844, 25);
             this.textBox1.TabIndex = 4;
-            // 
-            // radioButton1
-            // 
-            this.outputFormatJpeg.AutoSize = true;
-            this.outputFormatJpeg.Location = new System.Drawing.Point(161, 14);
-            this.outputFormatJpeg.Name = "radioButton1";
-            this.outputFormatJpeg.Size = new System.Drawing.Size(52, 16);
-            this.outputFormatJpeg.TabIndex = 1;
-            this.outputFormatJpeg.Text = "JPEG";
-            this.outputFormatJpeg.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(660, 770);
+            this.ClientSize = new System.Drawing.Size(1089, 1155);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.copyButton);
             this.Controls.Add(this.pictureBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "ClipbordImg2DataURI";

@@ -6,7 +6,6 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ImageProcessor;
 
@@ -37,7 +36,7 @@ namespace ClipbordImg2DataURI
             ClipboardHandler += Form1_ClipboardHandler;
         }
 
-        private Image ImageFilter(Image img)
+        private Image ImageFilter(Image img, ImageFactory factory)
         {
             var size = img.Size;
             int factor = 1;
@@ -58,13 +57,8 @@ namespace ClipbordImg2DataURI
 
             size = new Size(size.Width / factor, size.Height / factor);
 
-            using (var factory = new ImageFactory().Load(img))
-            {
-                using (var f = factory.Resize(size))
-                {
-                    return f.Image.Clone() as Image;
-                }
-            }
+            return factory.Load(img).Resize(size).Image.Clone() as Image;
+            
         }
 
         private Image Source;
@@ -81,12 +75,7 @@ namespace ClipbordImg2DataURI
         {
             SaveDispose(ref Source);
             Source = ev.Image;
-            if(pictureBox1.Image != null)
-            {
-                pictureBox1.Image.Dispose();
-                pictureBox1.Image = null;
-            }
-            pictureBox1.Image = ImageFilter(Source);
+            UpdateImage(sender, ev);
             copyButton.Enabled = true;
         }
 
@@ -99,7 +88,7 @@ namespace ClipbordImg2DataURI
         protected override void OnHandleDestroyed(EventArgs e)
         {
             // ビューアを解除
-            bool sts = ChangeClipboardChain(this.Handle, nextHandle);
+            ChangeClipboardChain(this.Handle, nextHandle);
 
             base.OnHandleDestroyed(e);
         }
@@ -121,7 +110,6 @@ namespace ClipbordImg2DataURI
                             nextHandle, msg.Msg, msg.WParam, msg.LParam);
                     msg.Result = IntPtr.Zero;
                     return;
-                // クリップボード・ビューア・チェーンが更新された
                 case WM_CHANGECBCHAIN:
                     if (msg.WParam == nextHandle)
                         nextHandle = msg.LParam;
@@ -133,10 +121,21 @@ namespace ClipbordImg2DataURI
             base.WndProc(ref msg);
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        private void UpdateImage(object sender, EventArgs e)
         {
             if (Source != null)
-                pictureBox1.Image = ImageFilter(Source);
+            {
+                if (pictureBox1.Image != null)
+                {
+                    pictureBox1.Image.Dispose();
+                    pictureBox1.Image = null;
+                }
+
+                using (var factory = new ImageFactory())
+                {
+                    pictureBox1.Image = ImageFilter(Source, factory);
+                }
+            }
         }
 
         private ImageProcessor.Imaging.Formats.ISupportedImageFormat MakeImageFormat()
@@ -147,7 +146,6 @@ namespace ClipbordImg2DataURI
                 {
                     Quality = 90
                 };
-
             }
             else
             {
@@ -156,34 +154,33 @@ namespace ClipbordImg2DataURI
                     IsIndexed = true
                 };
             }
-
         }
 
         private void copyButton_Click(object sender, EventArgs e)
         {
-            if (Source != null)
-                using (var factory = new ImageFactory().Load(ImageFilter(Source)))
-                {
-                    var format = MakeImageFormat();
-                    using (var f = factory.Format(format))
-                    {
-                        using (var stream = new System.IO.MemoryStream())
-                        {
-                            f.Save(stream);
-                            var dataUri = "data:" + format.MimeType + ";base64," + Convert.ToBase64String(stream.GetBuffer(), Base64FormattingOptions.None);
-                            try
-                            {
-                                Clipboard.Clear();
-                                Clipboard.SetText(dataUri);
+            if (Source == null)
+                return;
 
-                                textBox1.Text = $"{dataUri.Length} 文字コピーしました。";
-                            }catch(ExternalException ex)
-                            {
-                                MessageBox.Show(this, "クリップボードの設定に失敗しました。\n" + ex.Message,  this.Text,  MessageBoxButtons.OK ,MessageBoxIcon.Error);
-                            }
-                        }
+            using (var factory = new ImageFactory())
+            {
+                var format = MakeImageFormat();
+                using (var stream = new System.IO.MemoryStream())
+                {
+                    factory.Load(ImageFilter(Source, factory)).Format(format).Save(stream);
+                    var dataUri = "data:" + format.MimeType + ";base64," + Convert.ToBase64String(stream.GetBuffer(), Base64FormattingOptions.None);
+                    try
+                    {
+                        Clipboard.Clear();
+                        Clipboard.SetText(dataUri);
+
+                        textBox1.Text = $"{dataUri.Length} characters copied.";
+                    }
+                    catch (ExternalException ex)
+                    {
+                        MessageBox.Show(this, "Failed to set Clipboard.\n" + ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
+            }
         }
     }
     public delegate void ClipboardHandler(
