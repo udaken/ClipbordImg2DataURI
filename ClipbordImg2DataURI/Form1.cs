@@ -28,6 +28,9 @@ namespace ClipbordImg2DataURI
         private const int WM_DRAWCLIPBOARD = 0x0308;
         private const int WM_CHANGECBCHAIN = 0x030D;
         private IntPtr nextHandle;
+        private Image Source;
+
+        public event ClipboardHandler ClipboardHandler;
 
         public Form1()
         {
@@ -35,33 +38,32 @@ namespace ClipbordImg2DataURI
 
             ClipboardHandler += Form1_ClipboardHandler;
         }
+        protected override bool ProcessDialogKey(Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.C))
+            {
+                copyButton_Click(this, new EventArgs());
+                return true;
+            }
+            return base.ProcessDialogKey(keyData);
+        }
 
         private Image ImageFilter(Image img, ImageFactory factory)
         {
             var size = img.Size;
-            int factor = 1;
-            if (scale50Percent.Checked)
-            {
-                factor = 2;
-            }
-            else if (scale25Percent.Checked)
-            {
-                factor = 4;
-            }
-            else if (scale12Percent.Checked)
-            {
-                factor = 8;
-            }
+            var factor =
+                scale12Percent.Checked ? 8 :
+                scale25Percent.Checked ? 4 :
+                scale50Percent.Checked ? 2 :
+                1;
+
             if (size.Width < factor) throw new InvalidOperationException();
             if (size.Height < factor) throw new InvalidOperationException();
 
             size = new Size(size.Width / factor, size.Height / factor);
 
             return factory.Load(img).Resize(size).Image.Clone() as Image;
-            
         }
-
-        private Image Source;
 
         private static void SaveDispose<T>(ref T obj) where T : IDisposable
         {
@@ -93,7 +95,6 @@ namespace ClipbordImg2DataURI
             base.OnHandleDestroyed(e);
         }
 
-        public event ClipboardHandler ClipboardHandler;
         protected override void WndProc(ref Message msg)
         {
             switch (msg.Msg)

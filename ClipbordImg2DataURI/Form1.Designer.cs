@@ -55,7 +55,7 @@
             this.pictureBox1.Location = new System.Drawing.Point(13, 14);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1064, 958);
+            this.pictureBox1.Size = new System.Drawing.Size(640, 640);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
@@ -63,9 +63,9 @@
             // 
             this.copyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.copyButton.Enabled = false;
-            this.copyButton.Location = new System.Drawing.Point(896, 1101);
+            this.copyButton.Location = new System.Drawing.Point(539, 778);
             this.copyButton.Name = "copyButton";
-            this.copyButton.Size = new System.Drawing.Size(174, 44);
+            this.copyButton.Size = new System.Drawing.Size(167, 44);
             this.copyButton.TabIndex = 1;
             this.copyButton.Text = "&Copy as data URI";
             this.copyButton.UseVisualStyleBackColor = true;
@@ -73,17 +73,20 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.AutoSize = true;
             this.groupBox1.Controls.Add(this.flowLayoutPanel1);
-            this.groupBox1.Location = new System.Drawing.Point(13, 980);
+            this.groupBox1.Location = new System.Drawing.Point(13, 661);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(855, 62);
+            this.groupBox1.Size = new System.Drawing.Size(509, 62);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Scaling";
             // 
             // flowLayoutPanel1
             // 
+            this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.Controls.Add(this.scale100Percent);
             this.flowLayoutPanel1.Controls.Add(this.scale50Percent);
             this.flowLayoutPanel1.Controls.Add(this.scale25Percent);
@@ -92,7 +95,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 21);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(849, 38);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(503, 38);
             this.flowLayoutPanel1.TabIndex = 3;
             // 
             // scale100Percent
@@ -159,14 +162,15 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.outputFormatJpeg);
             this.groupBox2.Controls.Add(this.outputFormatPng8);
-            this.groupBox2.Location = new System.Drawing.Point(22, 1047);
+            this.groupBox2.Location = new System.Drawing.Point(22, 728);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.groupBox2.Size = new System.Drawing.Size(840, 54);
+            this.groupBox2.Size = new System.Drawing.Size(494, 54);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Output foramt(Mime Type)";
@@ -174,7 +178,7 @@
             // outputFormatJpeg
             // 
             this.outputFormatJpeg.AutoSize = true;
-            this.outputFormatJpeg.Location = new System.Drawing.Point(268, 21);
+            this.outputFormatJpeg.Location = new System.Drawing.Point(97, 21);
             this.outputFormatJpeg.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.outputFormatJpeg.Name = "outputFormatJpeg";
             this.outputFormatJpeg.Size = new System.Drawing.Size(122, 22);
@@ -197,30 +201,33 @@
             // 
             // textBox1
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBox1.Location = new System.Drawing.Point(22, 1116);
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox1.Location = new System.Drawing.Point(22, 797);
             this.textBox1.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(844, 25);
+            this.textBox1.Size = new System.Drawing.Size(498, 25);
             this.textBox1.TabIndex = 4;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1089, 1155);
+            this.ClientSize = new System.Drawing.Size(718, 836);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.copyButton);
             this.Controls.Add(this.pictureBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "ClipbordImg2DataURI";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

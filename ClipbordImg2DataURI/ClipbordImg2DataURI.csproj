@@ -41,9 +41,7 @@
       <HintPath>..\packages\ImageProcessor.2.6.2.25\lib\net452\ImageProcessor.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Numerics" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
