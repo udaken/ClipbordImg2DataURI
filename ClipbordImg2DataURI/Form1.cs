@@ -23,14 +23,14 @@ namespace ClipbordImg2DataURI
         public static extern bool ChangeClipboardChain(
                 IntPtr hWndRemove, IntPtr hWndNewNext);
 
-        [DllImport("user32")]
+        [DllImport("user32", CharSet = CharSet.Unicode)]
         public extern static int SendMessage(
                 IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
 
         private const int WM_DRAWCLIPBOARD = 0x0308;
         private const int WM_CHANGECBCHAIN = 0x030D;
-        private IntPtr nextHandle;
-        private Image Source;
+        private IntPtr _NextHandle;
+        private Image _Source;
 
         public event ClipboardHandler ClipboardHandler;
 
@@ -50,7 +50,7 @@ namespace ClipbordImg2DataURI
             return base.ProcessDialogKey(keyData);
         }
 
-        private Image ImageFilter(Image img, ImageFactory factory)
+        private Image ResizeImage(Image img, ImageFactory factory)
         {
             var size = img.Size;
             var factor =
@@ -69,7 +69,7 @@ namespace ClipbordImg2DataURI
             return factory.Load(img).Resize(size).Image.Clone() as Image;
         }
 
-        private static void SaveDispose<T>(ref T obj) where T : IDisposable
+        private static void SafeDispose<T>(ref T obj) where T : IDisposable
         {
             if (obj != null)
             {
@@ -80,22 +80,22 @@ namespace ClipbordImg2DataURI
 
         private void Form1_ClipboardHandler(object sender, ClipboardImageEventArgs ev)
         {
-            SaveDispose(ref Source);
-            Source = ev.Image;
+            SafeDispose(ref _Source);
+            _Source = ev.Image;
             UpdateImage(sender, ev);
             copyButton.Enabled = true;
         }
 
         protected override void OnHandleCreated(EventArgs e)
         {
-            nextHandle = SetClipboardViewer(this.Handle);
+            _NextHandle = SetClipboardViewer(this.Handle);
 
             base.OnHandleCreated(e);
         }
         protected override void OnHandleDestroyed(EventArgs e)
         {
             // ビューアを解除
-            ChangeClipboardChain(this.Handle, nextHandle);
+            ChangeClipboardChain(this.Handle, _NextHandle);
 
             base.OnHandleDestroyed(e);
         }
@@ -111,16 +111,16 @@ namespace ClipbordImg2DataURI
                         // クリップボードの内容を取得してハンドラを呼び出す
                         ClipboardHandler?.Invoke(this, new ClipboardImageEventArgs(Clipboard.GetImage()));
                     }
-                    if (nextHandle != IntPtr.Zero)
+                    if (_NextHandle != IntPtr.Zero)
                         SendMessage(
-                            nextHandle, msg.Msg, msg.WParam, msg.LParam);
+                            _NextHandle, msg.Msg, msg.WParam, msg.LParam);
                     msg.Result = IntPtr.Zero;
                     return;
                 case WM_CHANGECBCHAIN:
-                    if (msg.WParam == nextHandle)
-                        nextHandle = msg.LParam;
-                    else if (nextHandle != IntPtr.Zero)
-                        SendMessage(nextHandle, msg.Msg, msg.WParam, msg.LParam);
+                    if (msg.WParam == _NextHandle)
+                        _NextHandle = msg.LParam;
+                    else if (_NextHandle != IntPtr.Zero)
+                        SendMessage(_NextHandle, msg.Msg, msg.WParam, msg.LParam);
                     msg.Result = IntPtr.Zero;
                     return;
             }
@@ -129,7 +129,7 @@ namespace ClipbordImg2DataURI
 
         private void UpdateImage(object sender, EventArgs e)
         {
-            if (Source != null)
+            if (_Source != null)
             {
                 if (pictureBox1.Image != null)
                 {
@@ -139,39 +139,32 @@ namespace ClipbordImg2DataURI
 
                 using (var factory = new ImageFactory())
                 {
-                    pictureBox1.Image = ImageFilter(Source, factory);
+                    pictureBox1.Image = ResizeImage(_Source, factory);
                 }
             }
         }
 
         private ImageProcessor.Imaging.Formats.ISupportedImageFormat MakeImageFormat()
-        {
-            if (outputFormatJpeg.Checked)
-            {
-                return new ImageProcessor.Imaging.Formats.JpegFormat
+            => outputFormatJpeg.Checked
+                ? new ImageProcessor.Imaging.Formats.JpegFormat
                 {
                     Quality = 90
-                };
-            }
-            else
-            {
-                return new ImageProcessor.Imaging.Formats.PngFormat
+                }
+                : (ImageProcessor.Imaging.Formats.ISupportedImageFormat)new ImageProcessor.Imaging.Formats.PngFormat
                 {
                     IsIndexed = true
                 };
-            }
-        }
 
         private void copyButton_Click(object sender, EventArgs e)
         {
-            if (Source == null)
+            if (_Source == null)
                 return;
 
             using (var factory = new ImageFactory(false))
             {
                 byte[] buf;
                 var format = MakeImageFormat();
-                var imageFactory = factory.Load(ImageFilter(Source, factory)).Format(format);
+                var imageFactory = factory.Load(ResizeImage(_Source, factory)).Format(format);
                 if (outputFormatPng8.Checked && checkBox2.Checked)
                 {
                     var tempPathIn = Path.GetTempFileName() + ".png";
