@@ -39,6 +39,7 @@
             this.scale12Percent = new System.Windows.Forms.RadioButton();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.outputFormatJpeg = new System.Windows.Forms.RadioButton();
             this.outputFormatPng8 = new System.Windows.Forms.RadioButton();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -164,6 +165,7 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.checkBox2);
             this.groupBox2.Controls.Add(this.outputFormatJpeg);
             this.groupBox2.Controls.Add(this.outputFormatPng8);
             this.groupBox2.Location = new System.Drawing.Point(22, 728);
@@ -174,6 +176,18 @@
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Output foramt(Mime Type)";
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Checked = true;
+            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox2.Location = new System.Drawing.Point(283, 21);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(122, 22);
+            this.checkBox2.TabIndex = 4;
+            this.checkBox2.Text = "Use optipng";
+            this.checkBox2.UseVisualStyleBackColor = true;
             // 
             // outputFormatJpeg
             // 
@@ -252,6 +266,7 @@
         private System.Windows.Forms.RadioButton scale12Percent;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.RadioButton outputFormatJpeg;
+        private System.Windows.Forms.CheckBox checkBox2;
     }
 }
 

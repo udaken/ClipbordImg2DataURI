@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -57,8 +59,10 @@ namespace ClipbordImg2DataURI
                 scale50Percent.Checked ? 2 :
                 1;
 
-            if (size.Width < factor) throw new InvalidOperationException();
-            if (size.Height < factor) throw new InvalidOperationException();
+            if (size.Width < factor)
+                throw new InvalidOperationException();
+            if (size.Height < factor)
+                throw new InvalidOperationException();
 
             size = new Size(size.Width / factor, size.Height / factor);
 
@@ -69,7 +73,8 @@ namespace ClipbordImg2DataURI
         {
             if (obj != null)
             {
-                obj.Dispose(); obj = default;
+                obj.Dispose();
+                obj = default;
             }
         }
 
@@ -162,25 +167,60 @@ namespace ClipbordImg2DataURI
             if (Source == null)
                 return;
 
-            using (var factory = new ImageFactory())
+            using (var factory = new ImageFactory(false))
             {
+                byte[] buf;
                 var format = MakeImageFormat();
-                using (var stream = new System.IO.MemoryStream())
+                var imageFactory = factory.Load(ImageFilter(Source, factory)).Format(format);
+                if (outputFormatPng8.Checked && checkBox2.Checked)
                 {
-                    factory.Load(ImageFilter(Source, factory)).Format(format).Save(stream);
-                    var dataUri = "data:" + format.MimeType + ";base64," + Convert.ToBase64String(stream.GetBuffer(), Base64FormattingOptions.None);
-                    try
+                    var tempPathIn = Path.GetTempFileName() + ".png";
+                    _ = imageFactory.Save(tempPathIn);
+                    var tempPathOut = Path.GetTempFileName() + ".png";
+                    File.Delete(tempPathOut);
+                    using (var p = Process.Start(
+                        new ProcessStartInfo(@"optipng-0.7.7-win32\optipng.exe",
+                        $"-o3 --out=\"{tempPathOut}\" \"{tempPathIn}\"")
+                        { 
+                            RedirectStandardError = true,
+                            RedirectStandardOutput= true,
+                            UseShellExecute = false,
+                            CreateNoWindow = true,
+                        }))
                     {
-                        Clipboard.Clear();
-                        Clipboard.SetText(dataUri);
-
-                        textBox1.Text = $"{dataUri.Length} characters copied.";
+                        p.WaitForExit();
+                        Debug.Write(p.StandardOutput.ReadToEnd());
+                        if(p.ExitCode != 0)
+                        {
+                            MessageBox.Show(this, p.StandardError.ReadToEnd(), "optipng", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
-                    catch (ExternalException ex)
-                    {
-                        MessageBox.Show(this, "Failed to set Clipboard.\n" + ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    buf = File.ReadAllBytes(tempPathOut);
+                    File.Delete(tempPathIn);
+                    File.Delete(tempPathOut);
                 }
+                else
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        _ = imageFactory.Save(stream);
+                        buf = stream.GetBuffer();
+                    }
+
+                }
+                var dataUri = "data:" + format.MimeType + ";base64," + Convert.ToBase64String(buf, Base64FormattingOptions.None);
+                try
+                {
+                    Clipboard.Clear();
+                    Clipboard.SetText(dataUri);
+
+                    textBox1.Text = $"{dataUri.Length} characters copied.";
+                }
+                catch (ExternalException ex)
+                {
+                    MessageBox.Show(this, "Failed to set Clipboard.\n" + ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
             }
         }
     }
