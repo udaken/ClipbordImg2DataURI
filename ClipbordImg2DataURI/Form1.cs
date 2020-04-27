@@ -201,7 +201,11 @@ namespace ClipbordImg2DataURI
                     }
 
                 }
-                var dataUri = "data:" + format.MimeType + ";base64," + Convert.ToBase64String(buf, Base64FormattingOptions.None);
+
+                var dataUri = (checkBox3.Checked ? "<img src=\"" : "") +
+                    "data:" + format.MimeType + ";base64," + Convert.ToBase64String(buf, Base64FormattingOptions.None) +
+                    (checkBox3.Checked ? "\">" : "");
+
                 try
                 {
                     Clipboard.Clear();
