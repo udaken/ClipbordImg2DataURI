@@ -172,7 +172,7 @@ namespace ClipbordImg2DataURI
                     var tempPathOut = Path.GetTempFileName() + ".png";
                     File.Delete(tempPathOut);
                     using (var p = Process.Start(
-                        new ProcessStartInfo(@"optipng-0.7.7-win32\optipng.exe",
+                        new ProcessStartInfo(@"oxipng-v2.3.0-i686-pc-windows-msvc\oxipng.exe",
                         $"-o3 --out=\"{tempPathOut}\" \"{tempPathIn}\"")
                         { 
                             RedirectStandardError = true,
@@ -185,7 +185,7 @@ namespace ClipbordImg2DataURI
                         Debug.Write(p.StandardOutput.ReadToEnd());
                         if(p.ExitCode != 0)
                         {
-                            MessageBox.Show(this, p.StandardError.ReadToEnd(), "optipng", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(this, p.StandardError.ReadToEnd(), "oxipng", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                     buf = File.ReadAllBytes(tempPathOut);

@@ -185,9 +185,9 @@
             this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox2.Location = new System.Drawing.Point(283, 21);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(122, 22);
+            this.checkBox2.Size = new System.Drawing.Size(115, 22);
             this.checkBox2.TabIndex = 4;
-            this.checkBox2.Text = "Use optipng";
+            this.checkBox2.Text = "Use oxipng";
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
             // outputFormatJpeg
